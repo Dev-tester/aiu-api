@@ -1,3 +1,20 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+booke_seat:
+  path: /api/v1/book_seat/{sid}
+  controller: App\Controller\FlightController::bookAction
+  methods: [POST]
+
+cancel_book:
+  path: /api/v1/cancel_book/{sid}
+  controller: App\Controller\FlightController::cancelBookAction
+  methods: [DELETE]
+
+sale_ticket:
+  path: /api/v1/sale_ticket/{sid}
+  controller: App\Controller\FlightController::saleAction
+  methods: [POST]
+
+return_ticket:
+  path: /api/v1/return_ticket/{sid}
+  controller: App\Controller\FlightController::returnAction
+  methods: [DELETE]
+
