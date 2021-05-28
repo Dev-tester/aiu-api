@@ -17,4 +17,3 @@ return_ticket:
   path: /api/v1/return_ticket/{sid}
   controller: App\Controller\FlightController::returnAction
   methods: [DELETE]
-
