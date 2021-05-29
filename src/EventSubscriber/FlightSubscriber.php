@@ -31,8 +31,8 @@ class FlightSubscriber implements EventSubscriberInterface
 		foreach ($tickets as $ticket){
 			$this->sendEmail($mailer, $ticket->email,
 				[
-					'subject' => 'Рейс отложен',
-					'text' => 'Извините, ваш рейс отложен',
+					'subject' => 'Продажа билетов прекращена',
+					'text' => 'Продажа билетов на ваш авиарейс прекращена',
 				]);
 		}
 	}
