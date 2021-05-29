@@ -16,25 +16,43 @@ class FlightSubscriber implements EventSubscriberInterface
 	    $tickets = $this->getDoctrine()->getRepository(Ticket::class)->findAll();
 	    $mailer = new Mailer();
 	    foreach ($tickets as $ticket){
-		    $this->sendEmail($mailer, $ticket->email);
+		    $this->sendEmail($mailer, $ticket->email,
+			    [
+			    	'subject' => 'Рейс отложен',
+				    'text' => 'Извините, ваш рейс отложен',
+			    ]);
 	    }
     }
 
-    public static function getSubscribedEvents()
+	public function onTicketSalesCompleted($event)
+	{
+		$tickets = $this->getDoctrine()->getRepository(Ticket::class)->findAll();
+		$mailer = new Mailer();
+		foreach ($tickets as $ticket){
+			$this->sendEmail($mailer, $ticket->email,
+				[
+					'subject' => 'Рейс отложен',
+					'text' => 'Извините, ваш рейс отложен',
+				]);
+		}
+	}
+
+	public static function getSubscribedEvents()
     {
         return [
             'FlightCancelEvent' => 'onFlightCancelEvent',
+	        'TicketSalesCompletedEvent' => 'onTicketSalesCompleted',
         ];
     }
 
-	public function sendEmail(MailerInterface $mailer, $clientEmail): Response
+	public function sendEmail(MailerInterface $mailer, $clientEmail, $email): Response
 	{
 		$email = (new Email())
 			->from('hello@example.com')
 			->to($clientEmail)
-			->subject('Рейс отложен')
-			->text('Извините, ваш рейс отложен')
-			->html('<p>Извините, ваш рейс отложен</p>');
+			->subject($email->subject)
+			->text($email->text)
+			->html("<p>{$email->text}</p>");
 
 		$mailer->send($email);
 	}
