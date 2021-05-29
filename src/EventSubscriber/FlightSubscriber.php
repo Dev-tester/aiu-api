@@ -45,11 +45,11 @@ class FlightSubscriber implements EventSubscriberInterface
         ];
     }
 
-	public function sendEmail(MailerInterface $mailer, $clientEmail, $email): Response
+	public function sendEmail(MailerInterface $mailer, $clientEmailAddress, $email): Response
 	{
 		$email = (new Email())
 			->from('hello@example.com')
-			->to($clientEmail)
+			->to($clientEmailAddress)
 			->subject($email->subject)
 			->text($email->text)
 			->html("<p>{$email->text}</p>");
